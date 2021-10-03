@@ -1,18 +1,84 @@
 import React from 'react';
-import NavigationContainer from './NavigationContainer';
-import { createStackNavigator } from '@react-navigation/stack'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import Categories from './pages/Categories';
+import Meals from './pages/Meals';
+import MealDetail from './pages/MealDetail'
+
+const Stack = createNativeStackNavigator();
 const Router = () => {
-
-const Stack = createStackNavigator();
-
-
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="" component="" />
+      <Stack.Navigator  options={{headerMode:"none"}}>
+        <Stack.Screen name="Categories" component={Categories} />
+        <Stack.Screen name="Meals" component={Meals}
+          options={{
+            title: 'Meals',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        <Stack.Screen name="MealDetail" component={MealDetail} />
       </Stack.Navigator>
     </NavigationContainer>
+    // <NavigationContainer>
+    //   <Stack.Navigator>
+    //     <Stack.Screen
+    //       name="Categories" component={Categories}
+    //       options={{
+    //         title: 'Categories',
+    //         headerTitleAlign: 'center',
+    //         headerStyle: {
+    //           backgroundColor: '#f4511e',
+    //         },
+    //         headerTintColor: '#fff',
+    //         headerTitleStyle: {
+    //           fontWeight: 'bold',
+    //         },
+
+    //       }}
+    //     />
+    //     <Stack.Screen
+    //       name="Meals"
+    //       component={Meals}
+    //       options={{
+
+    //         title: 'Meals',
+    //         headerTitleAlign: 'center',
+    //         headerStyle: {
+    //           backgroundColor: '#f4511e',
+    //         },
+    //         headerTintColor: '#fff',
+    //         headerTitleStyle: {
+    //           fontWeight: 'bold',
+    //         }
+
+    //       }}
+    //     />
+    //     <Stack.Screen
+    //       name="MealDetail"
+    //       component={MealDetail}
+    //       options={{
+    //         title: 'Detail',
+    //         headerTitleAlign: 'center',
+    //         headerStyle: {
+    //           backgroundColor: '#f4511e',
+    //         },
+    //         headerTintColor: '#fff',
+    //         headerTitleStyle: {
+    //           fontWeight: 'bold',
+    //         },
+    //       }}
+    //     />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
   );
 }
 

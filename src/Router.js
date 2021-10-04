@@ -6,26 +6,28 @@ import Categories from './pages/Categories';
 import Meals from './pages/Meals';
 import MealDetail from './pages/MealDetail'
 
-const Stack = createNativeStackNavigator();
 const Router = () => {
+  const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator  options={{headerMode:"none"}}>
-        <Stack.Screen name="Categories" component={Categories} />
-        <Stack.Screen name="Meals" component={Meals}
-          options={{
-            title: 'Meals',
-            headerTitleAlign: 'center',
-            headerStyle: {
-              backgroundColor: '#f4511e',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
+      <Stack.Navigator
+       screenOptions={{
+        headerShown: false
+      }}
+      >
+        <Stack.Screen
+          name="Categories"
+          component={Categories}
+          
         />
-        <Stack.Screen name="MealDetail" component={MealDetail} />
+        <Stack.Screen
+          name="Meals"
+          component={Meals} 
+        />
+        <Stack.Screen
+          name="MealDetail"
+          component={MealDetail} 
+        />
       </Stack.Navigator>
     </NavigationContainer>
     // <NavigationContainer>

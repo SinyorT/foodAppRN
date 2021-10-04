@@ -1,47 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import styles from './MealDetail.style';
-import { TouchableOpacity, Text, Image, ScrollView, SafeAreaView ,Linking} from 'react-native';
+import Header from '../../components/Header';
+import { TouchableOpacity, Text, Image, ScrollView, SafeAreaView, Linking } from 'react-native';
+import useFetch from '../../hooks/useFetch';
+import Error from '../../components/Error';
+import Loading from '../../components/Loading';
+
 const MealDetail = ({ navigation, route }) => {
-    var initMeal = {
-        'img': null,
-        'name': null,
-        'desc': null,
-        'youtube': null
-    }
-    const [meal, setMeal] = useState(initMeal);
 
-    const fetchData = async () => {
-        const { data } = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${route.params.id}`);
-        console.log(data.meals[0]);
-        setMeal({
-            'img': data.meals[0].strMealThumb,
-            'name': data.meals[0].strMeal,
-            'desc': data.meals[0].strInstructions,
-            'youtube': data.meals[0].strYoutube
-        });
+    const { data, error, loading } = useFetch(
+        'mealdetail',
+        `json/v1/1/lookup.php?i=${route.params.id}`,
+    );
+
+
+    const handlerCategorySelect = (category) => {
+        navigation.navigate("Meals", { category })
     }
 
-    useEffect(() => {
-        fetchData();
-    }, [])
+    if (loading) {
+        return <Loading />
+    }
 
+    if (error) {
+        return <Error />
+    }
 
     return (
-        <SafeAreaView style={styles.container}>
-            <Image style={styles.image} source={{ uri: meal.img }} />
-            <Text style={styles.name}>{meal.name}</Text>
+        data[0] !== undefined && (<SafeAreaView style={styles.container}>
+            <Header title="Meal Detail" onPress={() => handlerCategorySelect(data[0].strCategory)} onPressText={"Meals"} />
             <ScrollView>
-                <Text style={styles.desc}>{meal.desc}</Text>
+                <Image style={styles.image} source={{ uri: data[0].strMealThumb }} />
+                <Text style={styles.name}>{data[0].strMeal}</Text>
+                <Text style={styles.desc}>{data[0].strInstructions}</Text>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => Linking.openURL(meal.youtube)}
+                    onPress={() => Linking.openURL(data[0].strYoutube)}
                 >
                     <Text style={styles.btnText}>Watch on Video
                     </Text>
                 </TouchableOpacity>
             </ScrollView>
-        </SafeAreaView>
+        </SafeAreaView>)
     );
 }
 
